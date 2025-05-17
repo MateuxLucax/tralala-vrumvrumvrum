@@ -1,0 +1,10 @@
+services:
+  web:
+    image: nginx:latest
+    container_name: nginx_server
+    volumes:
+      - ./:/app
+      - ./public:/usr/share/nginx/html:ro
+    ports:
+      - "80:80"
+    restart: always
