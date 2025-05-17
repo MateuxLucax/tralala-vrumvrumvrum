@@ -1,4 +1,20 @@
 
+function getBareHand() {
+    // describe bare hand gesture ✋🏻
+    const BareHandGesture = new fp.GestureDescription('bare_hand');
+
+    for (let finger of [fp.Finger.Index, fp.Finger.Thumb, fp.Finger.Middle, fp.Finger.Ring, fp.Finger.Pinky]) {
+        BareHandGesture.addCurl(finger, finger.NoCurl, 1.0);
+        // BareHandGesture.addCurl(finger, finger.HalfCurl, 0.5);
+        BareHandGesture.addDirection(finger, finger.VerticalUp, 1.0);
+        BareHandGesture.addDirection(finger, finger.DiagonalUpLeft, 1.0);
+        BareHandGesture.addDirection(finger, finger.DiagonalUpRight, 1.0);
+        BareHandGesture.addDirection(finger, finger.HorizontalLeft, 1.0);
+        BareHandGesture.addDirection(finger, finger.HorizontalRight, 1.0);
+    }
+
+    return BareHandGesture
+}
 
 function getGunGesture() {
     // describe thumbs down gesture 🔫
@@ -74,10 +90,10 @@ function getThumbsUpGesture() {
         ThumbsDownGesture.addCurl(finger, fp.FingerCurl.HalfCurl, 0.9);
     }
 
-    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpLeft, 1.0);
-    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.HorizontalLeft, 1.0);
-    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.HorizontalRight, 1.0);;
-    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpRight, 1.0);;
+    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpLeft, 0.6);
+    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.HorizontalLeft, 0.6);
+    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.HorizontalRight, 0.6);
+    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpRight, 0.6);
 
     return ThumbsDownGesture
 }
@@ -100,7 +116,8 @@ const gestureStrings = {
     'victory': '✌🏻',
     'thumbs_down': '👎',
     'middle_up': '🖕🏻',
-    'gun': '🔫'
+    'gun': '🔫',
+    'bare_hand': '✋🏻'
 }
 
 async function createDetector() {
@@ -132,7 +149,8 @@ async function main() {
         getThumbsUpGesture(),
         getThumbsDownGesture(),
         getMiddleSoloGesture(),
-        getGunGesture()
+        getGunGesture(),
+        getBareHand()
     ]
 
     const GE = new fp.GestureEstimator(knownGestures)
@@ -161,15 +179,19 @@ async function main() {
             }
 
             const est = GE.estimate(hand.keypoints3D, 9)
+            const chosenHand = hand.handedness.toLowerCase()
+                updateDebugInfo(est.poseData, chosenHand)
             if (est.gestures.length > 0) {
+                
                 // find gesture with highest match score
                 let result = est.gestures.reduce((p, c) => {
                     return (p.score > c.score) ? p : c
                 })
                 
-                const chosenHand = hand.handedness.toLowerCase()
-                resultLayer[chosenHand].innerText = gestureStrings[result.name]
+                // const chosenHand = hand.handedness.toLowerCase()
                 updateDebugInfo(est.poseData, chosenHand)
+                resultLayer[chosenHand].innerText = gestureStrings[result.name]
+                
             }
         }
         // ...and so on
