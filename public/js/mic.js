@@ -74,12 +74,14 @@ let decibelMeter = {
                 } else if(adjustedDecibels < 0) {
                     velocity = 0;
                 } else {
-                    velocity = Math.round((adjustedDecibels / limitDb) * 100);
+                    velocity = Math.round((adjustedDecibels / limitDb) * 255);
                 }
-                console.log('Decibels:', adjustedDecibels, 'dB');
-                console.log('Calibrated Offset:', this.calibratedOffset);
+                // console.log('Decibels:', adjustedDecibels, 'dB');
+                // console.log('Calibrated Offset:', this.calibratedOffset);
                 document.getElementById('status').textContent = adjustedDecibels + ' dB';
-                 document.getElementById('velocity').textContent = velocity;
+                document.getElementById('velocity').textContent = velocity;
+
+                requestApiAcceleration(velocity)
             }, 200);
 
             this.running = true;
