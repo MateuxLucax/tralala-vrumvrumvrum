@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Microphone Test</title>
+    <script src="../js/mic.js"></script>
+</head>
+<body>
+    <h1>Control</h1>
+    <button id="stop">Stop</button>
+    <div id="status"></div>
+    <br/>
+    <div id="velocity"></div>
+
+    <script>
+        decibelMeter.start();
+        document.getElementById('stop').addEventListener('click', function() {
+            decibelMeter.stop();
+        });
+    </script>
+</body>
+</html>
