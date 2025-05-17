@@ -3,17 +3,44 @@ function getBareHand() {
     // describe bare hand gesture ✋🏻
     const BareHandGesture = new fp.GestureDescription('bare_hand');
 
-    for (let finger of [fp.Finger.Index, fp.Finger.Thumb, fp.Finger.Middle, fp.Finger.Ring, fp.Finger.Pinky]) {
-        BareHandGesture.addCurl(finger, finger.NoCurl, 1.0);
-        // BareHandGesture.addCurl(finger, finger.HalfCurl, 0.5);
-        BareHandGesture.addDirection(finger, finger.VerticalUp, 1.0);
-        BareHandGesture.addDirection(finger, finger.DiagonalUpLeft, 1.0);
-        BareHandGesture.addDirection(finger, finger.DiagonalUpRight, 1.0);
-        BareHandGesture.addDirection(finger, finger.HorizontalLeft, 1.0);
-        BareHandGesture.addDirection(finger, finger.HorizontalRight, 1.0);
-    }
+    BareHandGesture.addCurl(fp.Finger.Thumb, fp.FingerCurl.NoCurl, 1.0);
+    BareHandGesture.addDirection(fp.Finger.Thumb, fp.FingerDirection.DiagonalUpRight, 1.0);
+    BareHandGesture.addDirection(fp.Finger.Thumb, fp.FingerDirection.DiagonalUpLeft, 1.0);
+
+    BareHandGesture.addCurl(fp.Finger.Index, fp.FingerCurl.NoCurl, 1.0);
+    BareHandGesture.addCurl(fp.Finger.Index, fp.FingerCurl.HalfCurl, 1.0);
+    BareHandGesture.addDirection(fp.Finger.Index, fp.FingerDirection.VerticalUp, 1.0);
+    BareHandGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpRight, 1.0);
+
+    BareHandGesture.addCurl(fp.Finger.Middle, fp.FingerCurl.NoCurl, 1.0);
+    BareHandGesture.addDirection(fp.Finger.Middle, fp.FingerDirection.VerticalUp, 1.0);
+    BareHandGesture.addDirection(fp.Finger.Middle, fp.FingerDirection.DiagonalUpRight, 1.0);
+
+    BareHandGesture.addCurl(fp.Finger.Ring, fp.FingerCurl.NoCurl, 1.0);
+    BareHandGesture.addDirection(fp.Finger.Ring, fp.FingerDirection.VerticalUp, 1.0);
+    BareHandGesture.addDirection(fp.Finger.Ring, fp.FingerDirection.DiagonalUpLeft, 1.0);
+
+    BareHandGesture.addCurl(fp.Finger.Pinky, fp.FingerCurl.NoCurl, 1.0);
+    BareHandGesture.addDirection(fp.Finger.Pinky, fp.FingerDirection.VerticalUp, 1.0);
+    BareHandGesture.addDirection(fp.Finger.Pinky, fp.FingerDirection.DiagonalUpLeft, 1.0);
 
     return BareHandGesture
+}
+
+function getMakeTheL() {
+    // describe thumbs down gesture 🔫
+    const maketheL = new fp.GestureDescription('make_l');
+
+    maketheL.addCurl(fp.Finger.Index, fp.FingerCurl.NoCurl, 1.0);
+    maketheL.addDirection(fp.Finger.Index, fp.FingerDirection.VerticalUp, 1.0);
+    maketheL.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpLeft, 0.9);
+    maketheL.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpRight, 0.9);
+
+    maketheL.addCurl(fp.Finger.Thumb, fp.FingerCurl.NoCurl, 1.0);
+    maketheL.addDirection(fp.Finger.Thumb, fp.FingerDirection.HorizontalRight, 1.0);
+    maketheL.addDirection(fp.Finger.Thumb, fp.FingerDirection.HorizontalLeft, 1.0);
+
+    return maketheL
 }
 
 function getGunGesture() {
@@ -25,7 +52,7 @@ function getGunGesture() {
     ThumbsDownGesture.addDirection(fp.Finger.Thumb, fp.FingerDirection.DiagonalUpLeft, 0.9);
     ThumbsDownGesture.addDirection(fp.Finger.Thumb, fp.FingerDirection.DiagonalUpRight, 0.9);
 
-    for(let finger of [fp.Finger.Middle, fp.Finger.Ring, fp.Finger.Pinky]) {
+    for (let finger of [fp.Finger.Middle, fp.Finger.Ring, fp.Finger.Pinky]) {
         ThumbsDownGesture.addCurl(finger, fp.FingerCurl.FullCurl, 1.0);
         ThumbsDownGesture.addCurl(finger, fp.FingerCurl.HalfCurl, 0.9);
     }
@@ -45,8 +72,10 @@ function getMiddleSoloGesture() {
 
     gesture.addCurl(fp.Finger.Middle, fp.FingerCurl.NoCurl, 1.0);
     gesture.addDirection(fp.Finger.Middle, fp.FingerDirection.VerticalUp, 1.0);
+    gesture.addDirection(fp.Finger.Middle, fp.FingerDirection.DiagonalUpLeft, 1.0);
+    gesture.addDirection(fp.Finger.Middle, fp.FingerDirection.DiagonalUpRight, 1.0);
 
-    for(let finger of [fp.Finger.Index, fp.Finger.Thumb, fp.Finger.Ring, fp.Finger.Pinky]) {
+    for (let finger of [fp.Finger.Index, fp.Finger.Thumb, fp.Finger.Ring, fp.Finger.Pinky]) {
         gesture.addCurl(finger, fp.FingerCurl.FullCurl, 1.0);
         gesture.addCurl(finger, fp.FingerCurl.HalfCurl, 1.0);
     }
@@ -63,14 +92,12 @@ function getThumbsDownGesture() {
     ThumbsDownGesture.addDirection(fp.Finger.Thumb, fp.FingerDirection.DiagonalDownLeft, 0.9);
     ThumbsDownGesture.addDirection(fp.Finger.Thumb, fp.FingerDirection.DiagonalDownRight, 0.9);
 
-    for(let finger of [fp.Finger.Index, fp.Finger.Middle, fp.Finger.Ring, fp.Finger.Pinky]) {
+    for (let finger of [fp.Finger.Index, fp.Finger.Middle, fp.Finger.Ring, fp.Finger.Pinky]) {
         ThumbsDownGesture.addCurl(finger, fp.FingerCurl.FullCurl, 1.0);
         ThumbsDownGesture.addCurl(finger, fp.FingerCurl.HalfCurl, 0.9);
     }
 
     ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalDownLeft, 1.0);
-    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.HorizontalLeft, 1.0);
-    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.HorizontalRight, 1.0);
     ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalDownRight, 1.0);
 
     return ThumbsDownGesture
@@ -85,15 +112,15 @@ function getThumbsUpGesture() {
     ThumbsDownGesture.addDirection(fp.Finger.Thumb, fp.FingerDirection.DiagonalUpLeft, 0.9);
     ThumbsDownGesture.addDirection(fp.Finger.Thumb, fp.FingerDirection.DiagonalUpRight, 0.9);
 
-    for(let finger of [fp.Finger.Index, fp.Finger.Middle, fp.Finger.Ring, fp.Finger.Pinky]) {
+    for (let finger of [fp.Finger.Index, fp.Finger.Middle, fp.Finger.Ring, fp.Finger.Pinky]) {
         ThumbsDownGesture.addCurl(finger, fp.FingerCurl.FullCurl, 1.0);
         ThumbsDownGesture.addCurl(finger, fp.FingerCurl.HalfCurl, 0.9);
     }
 
-    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpLeft, 0.6);
-    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.HorizontalLeft, 0.6);
-    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.HorizontalRight, 0.6);
-    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpRight, 0.6);
+    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpLeft, 1);
+    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.HorizontalLeft, 1);
+    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.HorizontalRight, 1);
+    ThumbsDownGesture.addDirection(fp.Finger.Index, fp.FingerDirection.DiagonalUpRight, 1);
 
     return ThumbsDownGesture
 }
@@ -117,7 +144,8 @@ const gestureStrings = {
     'thumbs_down': '👎',
     'middle_up': '🖕🏻',
     'gun': '🔫',
-    'bare_hand': '✋🏻'
+    'bare_hand': '✋🏻',
+    'make_l': '👆'
 }
 
 async function createDetector() {
@@ -150,7 +178,8 @@ async function main() {
         getThumbsDownGesture(),
         getMiddleSoloGesture(),
         getGunGesture(),
-        getBareHand()
+        getBareHand(),
+        getMakeTheL(),
     ]
 
     const GE = new fp.GestureEstimator(knownGestures)
@@ -178,20 +207,20 @@ async function main() {
                 drawPoint(ctx, keypoint.x, keypoint.y, 3, color)
             }
 
-            const est = GE.estimate(hand.keypoints3D, 9)
+            const est = GE.estimate(hand.keypoints3D, 8.0)
             const chosenHand = hand.handedness.toLowerCase()
-                updateDebugInfo(est.poseData, chosenHand)
+            updateDebugInfo(est.poseData, chosenHand)
             if (est.gestures.length > 0) {
-                
+
                 // find gesture with highest match score
                 let result = est.gestures.reduce((p, c) => {
                     return (p.score > c.score) ? p : c
                 })
-                
+
                 // const chosenHand = hand.handedness.toLowerCase()
                 updateDebugInfo(est.poseData, chosenHand)
                 resultLayer[chosenHand].innerText = gestureStrings[result.name]
-                
+
             }
         }
         // ...and so on
@@ -236,8 +265,8 @@ function drawPoint(ctx, x, y, r, color) {
 function updateDebugInfo(data, hand) {
     const summaryTable = `#summary-${hand}`
     for (let fingerIdx in data) {
-    document.querySelector(`${summaryTable} span#curl-${fingerIdx}`).innerHTML = data[fingerIdx][1]
-    document.querySelector(`${summaryTable} span#dir-${fingerIdx}`).innerHTML = data[fingerIdx][2]
+        document.querySelector(`${summaryTable} span#curl-${fingerIdx}`).innerHTML = data[fingerIdx][1]
+        document.querySelector(`${summaryTable} span#dir-${fingerIdx}`).innerHTML = data[fingerIdx][2]
     }
 }
 
