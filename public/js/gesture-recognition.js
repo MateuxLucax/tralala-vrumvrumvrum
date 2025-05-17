@@ -14,12 +14,13 @@ const landmarkColors = {
 }
 
 const gestureStrings = {
-    'thumbs_up': '👍',
+    'thumbs_up': '👍🏻',
     'victory': '✌🏻',
-    'thumbs_down': '👎',
+    'thumbs_down': '👎🏻',
     'middle_up': '🖕🏻',
     'gun': '🔫',
-    'bare_hand': '✋🏻'
+    'bare_hand': '✋🏻',
+    'make_l': '👆🏻'
 }
 
 async function main() {
@@ -38,7 +39,8 @@ async function main() {
         getThumbsDownGesture(),
         getMiddleUpGesture(),
         getGunGesture(),
-        getBareHand()
+        getBareHand(),
+        getMakeTheL()
     ]
 
     const GE = new fp.GestureEstimator(knownGestures)
