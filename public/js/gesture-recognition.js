@@ -76,7 +76,7 @@ async function main() {
                 })
 
                 resultLayer[chosenHand].innerText = gestureStrings[result.name]
-                requestApi(est, gestureStrings[result.name]);                
+                requestApiLeftRight(est, gestureStrings[result.name]);                
             }
         }
         // ...and so on
