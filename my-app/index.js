@@ -119,18 +119,6 @@ const gestureStrings = {
     'bare_hand': '✋🏻'
 }
 
-async function createDetector() {
-    return window.handPoseDetection.createDetector(
-        window.handPoseDetection.SupportedModels.MediaPipeHands,
-        {
-            runtime: "mediapipe",
-            modelType: "full",
-            maxHands: 2,
-            solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915`,
-        }
-    )
-}
-
 async function main() {
     const video = document.querySelector("#pose-video")
     const canvas = document.querySelector("#pose-canvas")
@@ -198,6 +186,18 @@ async function main() {
 
     estimateHands()
     console.log("Starting predictions")
+}
+
+async function createDetector() {
+    return window.handPoseDetection.createDetector(
+        window.handPoseDetection.SupportedModels.MediaPipeHands,
+        {
+            runtime: "mediapipe",
+            modelType: "full",
+            maxHands: 2,
+            solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915`,
+        }
+    )
 }
 
 async function initCamera(width, height, fps) {
