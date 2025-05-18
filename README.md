@@ -29,6 +29,16 @@ Este projeto integra um sistema de controle de motores via Arduino, uma API em F
 - Python 3 e Flask instalados para a API.
 - TensorFlow e Fingerpose (incluso via CDN no HTML).
 
+## Fluxo de funcionamento
+
+```mermaid
+flowchart LR
+    A[Usuário Gestos/Voz] --> B[Frontend TensorFlow/Fingerpose/Decibéis]
+    B -- Requisição HTTP --> C[API Flask<br/>Raspberry Pi]
+    C -- Comando Serial --> D[Arduino]
+    D -- Controle --> E[Motores]
+```
+
 ## Licença
 O projeto é distribuído sob a [GNU General Public License v3.0](./LICENSE).
 
@@ -44,11 +54,3 @@ O projeto é distribuído sob a [GNU General Public License v3.0](./LICENSE).
 [docker-url]: https://www.docker.com/
 [nginx-badge]: https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white
 [nginx-url]: https://www.nginx.com/
-
-```mermaid
-flowchart LR
-    A[Usuário Gestos/Voz] --> B[Frontend TensorFlow/Fingerpose/Decibéis]
-    B -- Requisição HTTP --> C[API Flask<br/>Raspberry Pi]
-    C -- Comando Serial --> D[Arduino]
-    D -- Controle --> E[Motores]
-```
