@@ -71,10 +71,12 @@ let decibelMeter = {
                 let velocity = 0;
                 if (adjustedDecibels > limitDb) {
                     velocity = 255;
-                } else if (adjustedDecibels < 0) {
+                } else if (adjustedDecibels <= 0) {
                     velocity = 0;
                 } else {
-                    velocity = Math.min(80, Math.round((adjustedDecibels / limitDb) * 255));
+                    velocity = Math.round((adjustedDecibels / limitDb) * 255)
+
+                    if (velocity < 170) velocity = 170;
                 }
             
                 // console.log('Decibels:', adjustedDecibels, 'dB');
