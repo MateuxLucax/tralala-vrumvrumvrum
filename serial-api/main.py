@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import serial
 import time
 
 app = Flask(__name__)
+CORS(app)
 
 # Setup serial connection (adjust the port if needed)
 SERIAL_PORT = '/dev/ttyUSB0'  # Check with `ls /dev/ttyUSB*` or `dmesg`
@@ -26,7 +28,7 @@ def send_command(command):
 @app.route('/instructions', methods=['POST'])
 def instructions():
     data = request.get_json()
-    command = data.get('command', '').strip().lower()
+    command = data.get('body').get('command', '').strip().lower()
 
     if command not in ['left', 'right', 'forward', 'stop']:
         return jsonify({"error": "Invalid command"}), 400
@@ -39,7 +41,7 @@ def instructions():
 @app.route('/speed', methods=['POST'])
 def speed():
     data = request.get_json()
-    speed = data.get('speed')
+    speed = data.get('body').get('speed')
 
     if not isinstance(speed, int) or not (0 <= speed <= 255):
         return jsonify({"error": "Speed must be an integer between 0 and 255"}), 400

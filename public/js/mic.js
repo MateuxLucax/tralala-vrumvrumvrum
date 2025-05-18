@@ -71,7 +71,7 @@ let decibelMeter = {
                 let velocity = 0;
                 if (adjustedDecibels > limitDb) {
                     velocity = 100;
-                } else if(adjustedDecibels < 0) {
+                } else if (adjustedDecibels < 0) {
                     velocity = 0;
                 } else {
                     velocity = Math.round((adjustedDecibels / limitDb) * 255);
@@ -99,27 +99,30 @@ let decibelMeter = {
                 this.calibrating = false;
                 document.getElementById('calibrationStatus').textContent = 'Calibração Terminada';
                 setTimeout(() => {
-                    window.location.replace ("../control");
+                    window.location.replace("../control");
                 }, 2000);
             }, 5000);
 
-            
+
         } catch (err) {
             alert('Error accessing microphone: ' + err.message);
         }
     },
 
     calibrate() {
-        const answer = confirm('Quer subsituir a calibração?');
-        if (!answer) {
-            document.getElementById('calibrationStatus').textContent = 'Calibração cancelada.';
-            window.location.replace ("../control");
-            return;
+        console.log(this.calibratedOffset)
+        if (this.calibratedOffset !== 0) {
+            const answer = confirm('Quer subsituir a calibração?');
+            if (!answer) {
+                document.getElementById('calibrationStatus').textContent = 'Calibração cancelada.';
+                window.location.replace("../control");
+                return;
+            }
         }
         document.getElementById('calibrationStatus').textContent = 'Calibração Iniciada...';
         this.calibrating = true;
         this.start();
-    }, 
+    },
 
     stop() {
         // Clear the interval
