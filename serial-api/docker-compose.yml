@@ -1,6 +1,6 @@
 services:
   tralala-serial-api:
-    build: serial-api
+    build: .
     container_name: tralala-serial-api
     ports:
       - "5000:5000"
