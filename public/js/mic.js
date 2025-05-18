@@ -1,7 +1,7 @@
 // This script measures the decibel level from the user's microphone in real time.
 // It uses the Web Audio API and displays the decibel level in the console.
 // Note: This works in browsers that support getUserMedia and AudioContext.
-const voiceMaxDb = 110;
+const voiceMaxDb = 80;
 let decibelMeter = {
     audioContext: null,
     analyser: null,
