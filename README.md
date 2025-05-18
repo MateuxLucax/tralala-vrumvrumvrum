@@ -32,6 +32,16 @@ Este projeto integra um sistema de controle de motores via Arduino, uma API em F
 [chrome://flags/#unsafely-treat-insecure-origin-as-secure](chrome://flags/#unsafely-treat-insecure-origin-as-secure)
 e inclua o endereço do Raspberry Pi (por exemplo: http://raspberrypi.local) como origem confiável.
 
+## Fluxo de funcionamento
+
+```mermaid
+flowchart LR
+    A[Usuário Gestos/Voz] --> B[Frontend TensorFlow/Fingerpose/Decibéis]
+    B -- Requisição HTTP --> C[API Flask<br/>Raspberry Pi]
+    C -- Comando Serial --> D[Arduino]
+    D -- Controle --> E[Motores]
+```
+
 ## Licença
 O projeto é distribuído sob a [GNU General Public License v3.0](./LICENSE).
 
