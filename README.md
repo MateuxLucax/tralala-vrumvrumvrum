@@ -15,7 +15,7 @@ Este projeto integra um sistema de controle de motores via Arduino, uma API em F
 
 ## Estrutura de Pastas
 - `arduino/`: Contém o código para o microcontrolador.
-- `flask/`: Contém a aplicação Flask.
+- `serial API/`: Contém a aplicação Flask responsável por comunicar com o Arduíno.
 - `public/`: Arquivos estáticos (HTML, CSS, JavaScript) para interação do usuário.
 
 ## Uso
@@ -23,6 +23,20 @@ Este projeto integra um sistema de controle de motores via Arduino, uma API em F
 2. Sirva os arquivos HTML da pasta `public/` também no Raspberry Pi (por exemplo, via docker-compose com Nginx).
 3. Conecte seu Arduino ao computador e suba o sketch para controlar os motores.  
 4. Acesse a interface web e teste a calibração do microfone e dos gestos.
+
+## Gestos Reconhecidos
+
+A interface web reconhece diferentes gestos com as mãos para controlar o carrinho. Veja abaixo os gestos disponíveis:
+
+- 👆🏻 **Para cima:** 
+- 🖕🏻 **Dedo do meio:** 
+- 🖐️ **Mão Aberta:**
+- 👍🏻 **Joinha:**
+- 👎🏻 **Dislaique:**
+- ✌️ **Dois Dedos (V):** 
+- 🔫 **Arminha:** 
+
+> Os gestos podem ser personalizados no arquivo `public/js/gestures.js`.
 
 ## Requisitos
 - Arduino com biblioteca AFMotor instalada.
