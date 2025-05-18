@@ -28,6 +28,9 @@ Este projeto integra um sistema de controle de motores via Arduino, uma API em F
 - Arduino com biblioteca AFMotor instalada.
 - Python 3 e Flask instalados para a API.
 - TensorFlow e Fingerpose (incluso via CDN no HTML).
+- Para permitir o uso de câmera ou microfone em conexões não seguras, ative a flag
+[chrome://flags/#unsafely-treat-insecure-origin-as-secure](chrome://flags/#unsafely-treat-insecure-origin-as-secure)
+e inclua o endereço do Raspberry Pi (por exemplo: http://raspberrypi.local) como origem confiável.
 
 ## Fluxo de funcionamento
 
