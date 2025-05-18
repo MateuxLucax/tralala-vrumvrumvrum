@@ -68,16 +68,16 @@ let decibelMeter = {
 
                 // Apply the calibrated offset after the first 5 seconds
                 const adjustedDecibels = (decibels + this.calibratedOffset).toFixed(1);
-                let velocity = 0;
-                if (adjustedDecibels > limitDb) {
-                    velocity = 255;
-                } else if (adjustedDecibels <= 0) {
-                    velocity = 0;
-                } else {
-                    velocity = Math.round((adjustedDecibels / limitDb) * 255)
+                let velocity = 255;
+                // if (adjustedDecibels > limitDb) {
+                //     velocity = 255;
+                // } else if (adjustedDecibels <= 0) {
+                //     velocity = 0;
+                // } else {
+                //     velocity = Math.round((adjustedDecibels / limitDb) * 255)
 
-                    if (velocity < 255) velocity = 255;
-                }
+                //     if (velocity < 255) velocity = 255;
+                // }
             
                 // console.log('Decibels:', adjustedDecibels, 'dB');
                 // console.log('Calibrated Offset:', this.calibratedOffset);
