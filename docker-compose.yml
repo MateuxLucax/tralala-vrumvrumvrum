@@ -1,6 +1,6 @@
 services:
   tralala-frontend:
-    image: nginx:latest
+    image: nginx:stable-alpine
     container_name: tralala-frontend
     volumes:
       - ./public:/usr/share/nginx/html:ro
