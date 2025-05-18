@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Control</title>
-
+    <title>ULTRA MEGA CONTROLE!!! 🎮🏎️</title>
+    <link rel="icon" href="../assets/icon.png" type="image/png">
     <script src="../js/mic.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 
+    <!-- TensorFlow and Handpose libraries -->
     <script src="https://unpkg.com/@tensorflow/tfjs-core@3.7.0/dist/tf-core.js"></script>
     <script src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@3.7.0/dist/tf-backend-webgl.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/hand-pose-detection@2.0.0/dist/hand-pose-detection.js"></script>
@@ -19,34 +24,291 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    
-    <h1>Control</h1>
-    <button id="stop">Parar</button>
-    <div id="status"></div>
-    <br/>
-    <div id="velocity"></div>
 
     <script>
-        decibelMeter.start();
-        document.getElementById('stop').addEventListener('click', function() {
-            decibelMeter.stop();
-        });
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'bungee': ['"Bungee"', 'cursive'],
+                        'poppins': ['"Poppins"', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                        'wiggle': 'wiggle 1s ease-in-out infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    },
+                    keyframes: {
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-3deg)' },
+                            '50%': { transform: 'rotate(3deg)' },
+                        }
+                    },
+                    colors: {
+                        neon: {
+                            pink: '#ff61d8',
+                            blue: '#00f0ff',
+                            yellow: '#ffee00',
+                            green: '#72f259',
+                        },
+                    }
+                }
+            }
+        }
     </script>
 
-    <div class="container">
-        <div class="video">
-            <div id="video-container">
+    <style>
+        .bg-racing-pattern {
+            background-color: #111;
+            background-image: repeating-linear-gradient(45deg, #222 0, #222 10px, #111 10px, #111 20px);
+        }
+
+        .text-stroke {
+            -webkit-text-stroke: 1px black;
+        }
+
+        .glow {
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .neon-box {
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.7);
+        }
+
+        /* Full screen video container */
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Make video semi-transparent */
+        #pose-video {
+            opacity: 0.85;
+        }
+
+        /* Velocity meter styles */
+        .volume-bar {
+            height: 30px;
+            border-radius: 15px;
+            background: linear-gradient(to right, #ff61d8, #00f0ff);
+            transition: width 0.2s ease;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.7);
+        }
+
+        /* Tutorial drawer styles */
+        .tutorial-drawer {
+            height: 0;
+            overflow: hidden;
+            transition: height 0.3s ease;
+        }
+
+        .tutorial-drawer.open {
+            height: 300px;
+        }
+
+        .tutorial-toggle {
+            cursor: pointer;
+        }
+
+        /* Pose result positioning */
+        .pose-result {
+            position: fixed;
+            z-index: 50;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #00f0ff;
+            color: white;
+            text-shadow: 0 0 5px #00f0ff;
+        }
+
+        #pose-result-left {
+            bottom: 100px;
+            left: 20px;
+        }
+
+        #pose-result-right {
+            bottom: 100px;
+            right: 20px;
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white font-poppins min-h-screen flex flex-col">
+    <!-- Video background -->
+    <div class="video">
+        <div id="video-container">
             <video id="pose-video" class="layer" playsinline></video>
             <canvas id="pose-canvas" class="layer"></canvas>
-            <div id="pose-result-left" class="layer pose-result"></div>
-            <br>
-            <div id="pose-result-right" class="layer pose-result"></div>
-      </div>
+            <div id="pose-result-left" class="pose-result"></div>
+            <div id="pose-result-right" class="pose-result"></div>
+        </div>
+    </div>
+    <script>
+        console.log(randomize());
+    </script>
+
+    <!-- Header -->
+    <header class="bg-racing-pattern bg-opacity-90 border-b-4 border-neon-blue sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center p-4">
+            <a href="../" class="text-3xl font-bungee text-neon-blue glow animate-pulse-fast">
+                <span class="text-neon-pink">TRALALA</span> <span class="text-neon-yellow">VRUM</span><span class="text-neon-green">VRUM</span>
+            </a>
+
+            <div class="flex items-center space-x-4">
+                <div id="status" class="text-neon-yellow font-bold text-lg glow hidden md:block"></div>
+                <button id="stop" class="bg-neon-pink text-black font-bungee py-2 px-4 rounded-lg hover:bg-white transition transform hover:scale-105 shadow-lg">
+                    ⛔ PARAR
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-grow relative">
+        <div class="absolute top-4 left-0 right-0 z-40 px-4">
+            <div class="container mx-auto">
+                <!-- Velocity meter -->
+                <div class="bg-black bg-opacity-70 p-4 rounded-xl border-2 border-neon-green mb-4">
+                    <p class="font-bungee text-neon-green mb-2">🔊 VOLUME!!! 🔊</p>
+                    <div class="w-full bg-gray-800 rounded-full h-8">
+                        <div id="velocity-meter" class="volume-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Speedometer display -->
+                <div class="bg-black bg-opacity-70 p-4 rounded-xl border-2 border-neon-yellow">
+                    <div class="text-center">
+                        <p class="font-bungee text-neon-yellow mb-2">🏎️ VELOCIDADE ABSURDA!!! 🏎️</p>
+                        <div id="velocity" class="text-5xl font-bungee text-neon-yellow glow">0 KM/H</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer / Tutorial -->
+    <div class="bg-black bg-opacity-90 border-t-4 border-neon-green fixed bottom-0 left-0 w-full z-50">
+        <div class="tutorial-toggle px-4 py-2 bg-neon-green text-black font-bungee text-center cursor-pointer">
+            COMO USAR!!! 👇 CLIQUE AQUI!!! 👇
+        </div>
+        <div class="tutorial-drawer bg-black">
+            <div class="container mx-auto px-4 py-6">
+                <h3 class="text-2xl font-bungee text-neon-yellow mb-4 text-center glow">CONTROLES ULTRA MEGA POWER!!! 🎮🔥</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-black bg-opacity-70 p-4 rounded-xl border-2 border-neon-pink">
+                        <h4 class="font-bungee text-neon-pink mb-2">🎤 VOLUME = VELOCIDADE 🎤</h4>
+                        <p>GRITE MAIS ALTO PARA IR MAIS RÁPIDO!!! SEU VOLUME CONTROLA A VELOCIDADE!!! 🔊🔊🔊</p>
+                    </div>
+
+                    <div class="bg-black bg-opacity-70 p-4 rounded-xl border-2 border-neon-blue">
+                        <h4 class="font-bungee text-neon-blue mb-2">👆 GESTOS DE MÃO 👆</h4>
+                        <p>FAÇA GESTOS COM AS MÃOS PARA CONTROLAR A DIREÇÃO!!! MÃO DIREITA = DIREÇÃO!!! MÃO ESQUERDA = TURBO!!!</p>
+                    </div>
+
+                    <div class="bg-black bg-opacity-70 p-4 rounded-xl border-2 border-neon-green">
+                        <h4 class="font-bungee text-neon-green mb-2">💯 DICAS PRO!!! 💯</h4>
+                        <p>FIQUE NO CENTRO DA CÂMERA!!! MÃOS VISÍVEIS!!! SE NÃO FUNCIONAR, GRITE MAIS ALTO!!! 🤯🤯🤯</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        console.log("david test");
-        console.log(randomize());
+        // Start decibel meter
+        decibelMeter.start(function(dB, percent, value) {
+            // Update velocity meter
+            const velocityMeter = document.getElementById('velocity-meter');
+            velocityMeter.style.width = percent + '%';
+
+            // Update velocity text (convert percent to "speed")
+            const velocityText = document.getElementById('velocity');
+            const speed = Math.round(percent * 3); // 0-100% becomes 0-300 km/h
+            velocityText.textContent = speed + ' KM/H';
+
+            // Add visual effects based on speed
+            if (speed > 200) {
+                velocityText.classList.add('animate-pulse-fast');
+                velocityText.classList.add('text-neon-pink');
+                velocityText.classList.remove('text-neon-yellow');
+            } else if (speed > 100) {
+                velocityText.classList.add('animate-pulse-fast');
+                velocityText.classList.add('text-neon-green');
+                velocityText.classList.remove('text-neon-yellow', 'text-neon-pink');
+            } else {
+                velocityText.classList.remove('animate-pulse-fast', 'text-neon-pink', 'text-neon-green');
+                velocityText.classList.add('text-neon-yellow');
+            }
+
+            // Update status text
+            updateStatus(speed);
+        });
+
+        // Update status based on speed
+        function updateStatus(speed) {
+            const status = document.getElementById('status');
+            if (speed > 200) {
+                status.textContent = 'MODO TURBO!!! 🔥🔥🔥';
+                status.className = 'text-neon-pink font-bold text-lg glow hidden md:block';
+            } else if (speed > 100) {
+                status.textContent = 'VELOCIDADE BOA!!! 💨';
+                status.className = 'text-neon-green font-bold text-lg glow hidden md:block';
+            } else if (speed > 50) {
+                status.textContent = 'ACELERA MAIS!!! 👆';
+                status.className = 'text-neon-yellow font-bold text-lg glow hidden md:block';
+            } else {
+                status.textContent = 'GRITA MAIS ALTO!!! 🔊';
+                status.className = 'text-neon-blue font-bold text-lg glow hidden md:block';
+            }
+        }
+
+        // Stop button
+        document.getElementById('stop').addEventListener('click', function() {
+            decibelMeter.stop();
+            document.getElementById('velocity-meter').style.width = '0%';
+            document.getElementById('velocity').textContent = '0 KM/H';
+            document.getElementById('status').textContent = 'PARADO!!! ⛔';
+        });
+
+        // Tutorial drawer toggle
+        const tutorialToggle = document.querySelector('.tutorial-toggle');
+        const tutorialDrawer = document.querySelector('.tutorial-drawer');
+
+        tutorialToggle.addEventListener('click', function() {
+            tutorialDrawer.classList.toggle('open');
+            if (tutorialDrawer.classList.contains('open')) {
+                tutorialToggle.textContent = 'FECHAR INSTRUÇÕES!!! 👆';
+            } else {
+                tutorialToggle.textContent = 'COMO USAR!!! 👇 CLIQUE AQUI!!! 👇';
+            }
+        });
+
+        // Close tutorial by default (open on first visit)
+        if (localStorage.getItem('tutorialSeen')) {
+            tutorialDrawer.classList.remove('open');
+        } else {
+            tutorialDrawer.classList.add('open');
+            localStorage.setItem('tutorialSeen', 'true');
+        }
     </script>
+
 </body>
 </html>

@@ -97,7 +97,6 @@ let decibelMeter = {
                 localStorage.setItem('calibratedOffset', calibratedOffset);
                 this.stop();
                 this.calibrating = false;
-                document.getElementById('calibrationStatus').textContent = 'Calibração Terminada';
                 setTimeout(() => {
                     window.location.replace("../control");
                 }, 2000);
