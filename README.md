@@ -6,7 +6,11 @@
 [![Docker][docker-badge]][docker-url]
 [![Nginx][nginx-badge]][nginx-url]
 
+## 🔥🔥🔥 PILOTE COMO NUNCA ANTES!!! NINGUÉM VAI ACREDITAR NA VELOCIDADE!!! 💯💯💯
+
+Com o Tralala VrumVrumVrum, você pode controlar um carrinho de controle remoto com gestos e a sua voz!
 Este projeto integra um sistema de controle de motores via Arduino, uma API em Flask e uma interface web para interação com gestos e voz.
+
 
 ## Componentes Principais
 - **Arduino**: Responsável pelo controle dos motores.
@@ -14,9 +18,9 @@ Este projeto integra um sistema de controle de motores via Arduino, uma API em F
 - **Frontend**: Usa TensorFlow e Fingerpose para reconhecer gestos e envia comandos via requisições HTTP. Também há um medidor de decibéis que controla a velocidade.
 
 ## Estrutura de Pastas
-- `arduino/`: Contém o código para o microcontrolador.
-- `serial API/`: Contém a aplicação Flask responsável por comunicar com o Arduíno.
-- `public/`: Arquivos estáticos (HTML, CSS, JavaScript) para interação do usuário.
+- `arduino/`: Contém o código para o microcontrolador controlar os movimentos e receber comandos através do protocolo USB Serial.
+- `serial-api/`: Contém a aplicação Flask responsável por comunicar com o Arduíno através do protocolo USB Serial.
+- `public/`: Arquivos estáticos (HTML, CSS, JavaScript) para interação através de voz e gestos do usuário.
 
 ## Uso
 1. Suba a aplicação Flask (app.py) no Raspberry Pi para receber e responder às requisições.
