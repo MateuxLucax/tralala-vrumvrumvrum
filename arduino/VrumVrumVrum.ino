@@ -14,6 +14,7 @@ void setup() {
 
   setAllSpeed(currentSpeed);
   stopAll();
+  testRun();
 }
 
 void loop() {
@@ -73,9 +74,9 @@ void testRun() {
   rightMotor1.run(FORWARD);
   rightMotor2.run(FORWARD);
 
-  delay(3000);
+  delay(1000);
   stopAll();
-  delay(3000);
+  delay(1000);
 
   Serial.println("Running motor test (right)...");
   leftMotor1.run(BACKWARD);
@@ -83,9 +84,9 @@ void testRun() {
   rightMotor1.run(FORWARD);
   rightMotor2.run(FORWARD);
 
-  delay(3000);
+  delay(1000);
   stopAll();
-  delay(3000);
+  delay(1000);
 
   Serial.println("Running motor test (left)...");
   leftMotor1.run(FORWARD);
@@ -93,7 +94,7 @@ void testRun() {
   rightMotor1.run(BACKWARD);
   rightMotor2.run(BACKWARD);
 
-  delay(3000);
+  delay(1000);
   stopAll();
 }
 

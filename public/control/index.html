@@ -21,9 +21,6 @@
     <script src="../js/gestures.js"></script>
     <script src="../js/request.js"></script>
     <script src="../js/randomizer.js"></script>
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
 
     <script>
         tailwind.config = {
@@ -99,6 +96,7 @@
         /* Make video semi-transparent */
         #pose-video {
             opacity: 0.85;
+            transform: scaleX(-1); /* Mirror the camera */
         }
 
         /* Velocity meter styles */
@@ -147,6 +145,32 @@
             bottom: 100px;
             right: 20px;
         }
+        
+        /* Camera loading overlay */
+        #camera-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 8px solid rgba(255, 97, 216, 0.3);
+            border-top-color: rgba(255, 97, 216, 1);
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 
@@ -154,7 +178,7 @@
     <!-- Video background -->
     <div class="video">
         <div id="video-container">
-            <video id="pose-video" class="layer" playsinline></video>
+            <video id="pose-video" class="layer" playsinline autoplay></video>
             <canvas id="pose-canvas" class="layer"></canvas>
             <div id="pose-result-left" class="pose-result"></div>
             <div id="pose-result-right" class="pose-result"></div>
@@ -231,10 +255,9 @@
             </div>
         </div>
     </div>
-
     <script>
         // Start decibel meter
-        decibelMeter.start(function(dB, percent, value) {
+        decibelMeter.start(function (dB, percent, value) {
             // Update velocity meter
             const velocityMeter = document.getElementById('velocity-meter');
             velocityMeter.style.width = percent + '%';
@@ -281,7 +304,7 @@
         }
 
         // Stop button
-        document.getElementById('stop').addEventListener('click', function() {
+        document.getElementById('stop').addEventListener('click', function () {
             decibelMeter.stop();
             document.getElementById('velocity-meter').style.width = '0%';
             document.getElementById('velocity').textContent = '0 KM/H';
@@ -292,7 +315,7 @@
         const tutorialToggle = document.querySelector('.tutorial-toggle');
         const tutorialDrawer = document.querySelector('.tutorial-drawer');
 
-        tutorialToggle.addEventListener('click', function() {
+        tutorialToggle.addEventListener('click', function () {
             tutorialDrawer.classList.toggle('open');
             if (tutorialDrawer.classList.contains('open')) {
                 tutorialToggle.textContent = 'FECHAR INSTRUÇÕES!!! 👆';
