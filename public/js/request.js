@@ -3,7 +3,7 @@ function requestApiLeftRight(est, gesture) {
         "command": mappedGestures[gesture],
         "message": "Instruction sent"
     }
-    fetch('http://127.0.0.1:5000/instructions', {
+    fetch('http://192.168.227.27:5000/instructions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ body })
@@ -18,7 +18,7 @@ function requestApiAcceleration(aceleration) {
         "message": "Speed sent",
         "speed": aceleration
     }
-    fetch('http://127.0.0.1:5000/speed', {
+    fetch('http://192.168.227.27:5000/speed', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ body })
