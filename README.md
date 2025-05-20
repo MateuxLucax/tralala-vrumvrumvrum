@@ -1,4 +1,5 @@
-# Tralala VrumVrumVrum
+# Tralala VrumVrumVrum 🚗💨
+
 [![Arduino][arduino-badge]][arduino-url]
 [![Flask][flask-badge]][flask-url]
 [![TensorFlow][tf-badge]][tf-url]
@@ -6,62 +7,144 @@
 [![Docker][docker-badge]][docker-url]
 [![Nginx][nginx-badge]][nginx-url]
 
-## 🔥🔥🔥 PILOTE COMO NUNCA ANTES!!! NINGUÉM VAI ACREDITAR NA VELOCIDADE!!! 💯💯💯
+<p align="center">
+  <img src="frontend/assets/icon.png" alt="Tralala VrumVrumVrum" width="120"/>
+</p>
 
-Com o Tralala VrumVrumVrum, você pode controlar um carrinho de controle remoto com gestos e a sua voz!
-Este projeto integra um sistema de controle de motores via Arduino, uma API em Flask e uma interface web para interação com gestos e voz.
+## 🔥 PILOTE COMO NUNCA ANTES!!! NINGUÉM VAI ACREDITAR NA VELOCIDADE!!! 💯
 
+O Tralala VrumVrumVrum é um projeto open source que transforma gestos e voz em comandos para um carrinho robô real, usando tecnologias modernas de IA, web e eletrônica. Controle o robô com as mãos ou gritos e surpreenda todo mundo com a velocidade!
 
-## Componentes Principais
-- **Arduino**: Responsável pelo controle dos motores.
-- **Flask**: Disponibiliza rotas para receber instruções de movimentação.
-- **Frontend**: Usa TensorFlow e Fingerpose para reconhecer gestos e envia comandos via requisições HTTP. Também há um medidor de decibéis que controla a velocidade.
+---
 
-## Estrutura de Pastas
-- `arduino/`: Contém o código para o microcontrolador controlar os movimentos e receber comandos através do protocolo USB Serial.
-- `serial-api/`: Contém a aplicação Flask responsável por comunicar com o Arduíno através do protocolo USB Serial.
-- `public/`: Arquivos estáticos (HTML, CSS, JavaScript) para interação através de voz e gestos do usuário.
+## 🤖 Fotos do Robô
 
-## Uso
-1. Suba a aplicação Flask (app.py) no Raspberry Pi para receber e responder às requisições.
-2. Sirva os arquivos HTML da pasta `public/` também no Raspberry Pi (por exemplo, via docker-compose com Nginx).
-3. Conecte seu Arduino ao computador e suba o sketch para controlar os motores.  
-4. Acesse a interface web e teste a calibração do microfone e dos gestos.
+<p align="center">
+  <img src="images/robot-front.jpeg" alt="Robô - Visão Frontal" width="320"/>
+  <br>
+  <b>Visão frontal do robô montado, mostrando o chassi, motores, rodas, Arduino e Raspberry Pi.</b>
+</p>
+<p align="center">
+  <img src="images/robot-topdown.jpeg" alt="Robô - Visão Superior" width="320"/>
+  <br>
+  <b>Visão superior destacando a montagem eletrônica: Arduino Uno, Motor Shield L293D, Raspberry Pi e cabeamento.</b>
+</p>
 
-## Gestos Reconhecidos
+---
 
-A interface web reconhece diferentes gestos com as mãos para controlar o carrinho. Veja abaixo os gestos disponíveis:
+## 🖥️ Imagens da Interface Web
 
-- 👆🏻 **Para cima:** 
-- 🖕🏻 **Dedo do meio:** 
-- 🖐️ **Mão Aberta:**
-- 👍🏻 **Joinha:**
-- 👎🏻 **Dislaique:**
-- ✌️ **Dois Dedos (V):** 
-- 🔫 **Arminha:** 
+<p align="center">
+  <img src="images/example-home-page.png" alt="Página Inicial do Site" width="320"/>
+  <br>
+  <b>Página inicial do site, com visual moderno, colorido e chamativo.</b>
+</p>
+<p align="center">
+  <img src="images/example-control-page.png" alt="Página de Controle" width="320"/>
+  <br>
+  <b>Página de controle: mostra o reconhecimento de gestos, velocímetro e feedback visual em tempo real.</b>
+</p>
 
-> Os gestos podem ser personalizados no arquivo `public/js/gestures.js`.
+<p align="center">
+  <img src="frontend/assets/icon.png" alt="Ícone do Projeto" width="96"/>
+  <br>
+  <b>Ícone oficial do Tralala VrumVrumVrum.</b>
+</p>
 
-## Requisitos
-- Arduino com biblioteca AFMotor instalada.
-- Python 3 e Flask instalados para a API.
-- TensorFlow e Fingerpose (incluso via CDN no HTML).
-- Para permitir o uso de câmera ou microfone em conexões não seguras, ative a flag
-[chrome://flags/#unsafely-treat-insecure-origin-as-secure](chrome://flags/#unsafely-treat-insecure-origin-as-secure)
-e inclua o endereço do Raspberry Pi (por exemplo: http://raspberrypi.local) como origem confiável.
+---
 
-## Fluxo de funcionamento
+## 🧩 Componentes do Projeto
+
+- **Arduino Uno + Motor Shield L293D**: Controle dos 4 motores DC
+- **Raspberry Pi**: Roda o backend Flask e serve o frontend
+- **Frontend Web**: Interface moderna com reconhecimento de gestos (TensorFlow.js) e volume de voz
+- **Powerbank 10000mAh**: Alimentação do robô
+- **Chassi, rodas, motores**: Montagem física
+
+---
+
+## 🚦 Como Funciona
 
 ```mermaid
 flowchart LR
-    A[Usuário Gestos/Voz] --> B[Frontend TensorFlow/Fingerpose/Decibéis]
-    B -- Requisição HTTP --> C[API Flask<br/>Raspberry Pi]
-    C -- Comando Serial --> D[Arduino]
-    D -- Controle --> E[Motores]
+    A[Usuário: Gestos/Voz] --> B[Frontend Web - TensorFlow/Fingerpose/Decibéis]
+    B -- HTTP --> C[API Flask - Raspberry Pi]
+    C -- Serial USB --> D[Arduino Uno + Motor Shield]
+    D -- PWM --> E[Motores]
 ```
 
-## Licença
-O projeto é distribuído sob a [GNU General Public License v3.0](./LICENSE).
+1. O usuário faz gestos ou grita na interface web
+2. O frontend envia comandos HTTP para a API Flask
+3. O backend converte e envia comandos via USB para o Arduino
+4. O Arduino aciona os motores conforme o comando recebido
+
+---
+
+## 🕹️ Experimente!
+
+1. **Monte o robô** seguindo o diagrama e fotos acima
+2. **Suba o código no Arduino** (`vehicle/Vehicle.ino`)
+3. **Rode o backend Flask** no Raspberry Pi
+4. **Acesse a interface web** pelo navegador
+5. **Permita acesso à câmera e microfone**
+6. **Faça gestos ou grite para acelerar!**
+
+---
+
+## 📦 Estrutura do Projeto
+
+```
+├── backend/      # API Flask e comunicação serial
+├── frontend/     # Interface web (HTML, JS, CSS, ícones)
+├── proxy/        # Proxy reverso Nginx
+├── vehicle/      # Código Arduino e instruções de montagem
+├── images/       # Fotos do robô e screenshots
+├── docker-compose.yml
+└── README.md     # Este arquivo
+```
+
+---
+
+## 🛠️ Tecnologias
+- **Python, Flask, pyserial**
+- **TensorFlow.js, MediaPipe, Fingerpose**
+- **Nginx, Docker**
+- **Arduino C++**
+
+---
+
+## 📚 Documentação
+- [Frontend](frontend/README.md)
+- [Backend/API](backend/README.md)
+- [Exemplos de API](backend/API-EXAMPLES.md)
+- [Proxy](proxy/README.md)
+- [Montagem do Robô](vehicle/README.md)
+
+---
+
+## 🚀 Como executar o projeto
+
+1. **Clone o repositório:**
+   ```sh
+   git clone https://github.com/seu-usuario/tralala-vrumvrumvrum.git
+   cd tralala-vrumvrumvrum
+   ```
+2. **Monte o robô físico** conforme instruções e diagramas em [Montagem do Robô](vehicle/README.md).
+3. **Conecte o Arduino ao Raspberry Pi** via USB e faça o upload do código (`vehicle/Vehicle.ino`).
+4. **Configure e execute tudo com Docker Compose:**
+   ```sh
+   docker compose up --build
+   ```
+   Isso irá subir o backend Flask, o frontend e o proxy Nginx automaticamente.
+5. **Acesse a interface web:**
+   - No navegador, acesse: [http://localhost](http://localhost) (ou o IP do seu Raspberry Pi)
+6. **Permita o acesso à câmera e microfone** quando solicitado.
+7. **Pronto!** Faça gestos ou grite para controlar o robô!
+
+---
+
+## 📝 Licença
+Distribuído sob [GNU GPL v3.0](./LICENSE).
 
 [arduino-badge]: https://img.shields.io/badge/Arduino-00979C?style=for-the-badge&logo=Arduino&logoColor=white
 [arduino-url]: https://www.arduino.cc/

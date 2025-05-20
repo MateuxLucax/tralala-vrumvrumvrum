@@ -1,10 +1,11 @@
 [project]
-name = "serial-api"
-version = "0.1.0"
-description = "Add your description here"
+name = "tralala-vrumvrumvrum-bakcend"
+version = "1.0.0"
+description = "Simple Flask API responsible for receiving commands through HTTP and sending them through USB Serial interface"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "flask>=3.1.1",
     "pyserial>=3.5",
+    "flask_cors>=6.0.0"
 ]
