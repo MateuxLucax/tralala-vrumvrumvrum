@@ -212,12 +212,12 @@
         <div class="absolute top-4 left-0 right-0 z-40 px-4">
             <div class="container mx-auto">
                 <!-- Velocity meter -->
-                <!-- <div class="bg-black bg-opacity-70 p-4 rounded-xl border-2 border-neon-green mb-4">
+                <div class="bg-black bg-opacity-70 p-4 rounded-xl border-2 border-neon-green mb-4">
                     <p class="font-bungee text-neon-green mb-2">🔊 VOLUME!!! 🔊</p>
                     <div class="w-full bg-gray-800 rounded-full h-8">
                         <div id="velocity-meter" class="volume-bar" style="width: 0%"></div>
                     </div>
-                </div> -->
+                </div>
 
                 <!-- Speedometer display -->
                 <div class="bg-black bg-opacity-70 p-4 rounded-xl border-2 border-neon-yellow">
@@ -261,74 +261,118 @@
         </div>
     </div>
     <script>
-        const velocityMeter = document.getElementById('velocity-meter');
-
-        decibelMeter.start(function (dB, percent, value) {
-            velocityMeter.style.width = percent + '%';
-
+        document.addEventListener('DOMContentLoaded', async function () {
+            const velocityMeter = document.getElementById('velocity-meter');
             const velocityText = document.getElementById('velocity');
-            const speed = Math.round(percent * 1); // 0-100% becomes 0-100 💩/s
-            velocityText.textContent = `${speed} 💩/s`;
-
-            if (speed > 200) {
-                velocityText.classList.add('animate-pulse-fast');
-                velocityText.classList.add('text-neon-pink');
-                velocityText.classList.remove('text-neon-yellow');
-            } else if (speed > 100) {
-                velocityText.classList.add('animate-pulse-fast');
-                velocityText.classList.add('text-neon-green');
-                velocityText.classList.remove('text-neon-yellow', 'text-neon-pink');
-            } else {
-                velocityText.classList.remove('animate-pulse-fast', 'text-neon-pink', 'text-neon-green');
-                velocityText.classList.add('text-neon-yellow');
-            }
-
-            updateStatus(speed);
-        });
-
-        function updateStatus(speed) {
             const status = document.getElementById('status');
-            if (speed > 200) {
-                status.textContent = 'MODO TURBO!!! 🔥🔥🔥';
-                status.className = 'text-neon-pink font-bold text-lg glow hidden md:block';
-            } else if (speed > 100) {
-                status.textContent = 'VELOCIDADE BOA!!! 💨';
-                status.className = 'text-neon-green font-bold text-lg glow hidden md:block';
-            } else if (speed > 50) {
-                status.textContent = 'ACELERA MAIS!!! 👆';
-                status.className = 'text-neon-yellow font-bold text-lg glow hidden md:block';
-            } else {
-                status.textContent = 'GRITA MAIS ALTO!!! 🔊';
-                status.className = 'text-neon-blue font-bold text-lg glow hidden md:block';
+            let meter = null;
+
+            // Initialize and calibrate on page load
+            async function initMicrophone() {
+                try {
+                    // Create a new instance
+                    meter = new DecibelMeter();
+
+                    // Request microphone permission
+                    await meter.requestMicrophone();
+
+                    // Show calibration message
+                    status.textContent = 'CALIBRANDO MICROFONE... 🎤';
+                    status.className = 'text-neon-blue font-bold text-lg glow animate-pulse-fast hidden md:block';
+
+                    // Perform calibration to establish noise floor
+                    await meter.calibrate();
+
+                    // Start measuring sound levels
+                    startMeasuring();
+
+                    // Update status once calibration is complete
+                    status.textContent = 'PRONTO PARA ACELERAR!!! 🔊';
+                    status.className = 'text-neon-blue font-bold text-lg glow hidden md:block';
+                } catch (error) {
+                    console.error("Microphone initialization failed:", error);
+                    status.textContent = 'ERRO NO MICROFONE! TENTE NOVAMENTE ⚠️';
+                    status.className = 'text-red-500 font-bold text-lg glow hidden md:block';
+                }
             }
-        }
 
-        document.getElementById('stop').addEventListener('click', function () {
-            decibelMeter.stop();
-            document.getElementById('velocity-meter').style.width = '0%';
-            document.getElementById('velocity').textContent = '0 💩/s';
-            document.getElementById('status').textContent = 'PARADO!!! ⛔';
-        });
+            // Start measuring sound and updating UI
+            function startMeasuring() {
+                if (!meter) return;
+                let lastSpeed = 0;
 
-        const tutorialToggle = document.querySelector('.tutorial-toggle');
-        const tutorialDrawer = document.querySelector('.tutorial-drawer');
+                meter.startMeasurement(value => {
+                    const percent = Math.min(100, Math.round((value / 255) * 100));
 
-        tutorialToggle.addEventListener('click', function () {
-            tutorialDrawer.classList.toggle('open');
-            if (tutorialDrawer.classList.contains('open')) {
-                tutorialToggle.textContent = 'FECHAR INSTRUÇÕES!!! 👆';
-            } else {
-                tutorialToggle.textContent = 'COMO USAR!!! 👇 CLIQUE AQUI!!! 👇';
+                    velocityMeter.style.width = `${percent}%`;
+
+                    const speed = value;
+
+                    velocityText.textContent = `${speed} 💩/s`;
+
+                    if (speed > 200) {
+                        velocityText.classList.add('animate-pulse-fast', 'text-neon-pink');
+                        velocityText.classList.remove('text-neon-yellow', 'text-neon-green');
+                    } else if (speed > 100) {
+                        velocityText.classList.add('animate-pulse-fast', 'text-neon-green');
+                        velocityText.classList.remove('text-neon-yellow', 'text-neon-pink');
+                    } else {
+                        velocityText.classList.remove('animate-pulse-fast', 'text-neon-pink', 'text-neon-green');
+                        velocityText.classList.add('text-neon-yellow');
+                    }
+
+                    updateStatus(speed);
+                    if (speed !== lastSpeed) {
+                        lastSpeed = speed;
+                    } else {
+                        return;
+                    }
+
+                    requestApiAcceleration(speed);
+                });
             }
-        });
 
-        // Close tutorial by default (open on first visit)
-        if (localStorage.getItem('tutorialSeen')) {
-            tutorialDrawer.classList.remove('open');
-        } else {
-            tutorialDrawer.classList.add('open');
-            localStorage.setItem('tutorialSeen', 'true');
-        }
+            function updateStatus(speed) {
+                if (speed > 200) {
+                    status.textContent = 'MODO TURBO!!! 🔥🔥🔥';
+                    status.className = 'text-neon-pink font-bold text-lg glow hidden md:block';
+                } else if (speed > 100) {
+                    status.textContent = 'VELOCIDADE BOA!!! 💨';
+                    status.className = 'text-neon-green font-bold text-lg glow hidden md:block';
+                } else if (speed > 50) {
+                    status.textContent = 'ACELERA MAIS!!! 👆';
+                    status.className = 'text-neon-yellow font-bold text-lg glow hidden md:block';
+                } else {
+                    status.textContent = 'GRITA MAIS ALTO!!! 🔊';
+                    status.className = 'text-neon-blue font-bold text-lg glow hidden md:block';
+                }
+            }
+
+            document.getElementById('stop').addEventListener('click', function () {
+                // Stop the microphone measurement
+                if (meter) {
+                    meter.stop();
+                    meter = null;
+                }
+
+                // Reset UI
+                velocityMeter.style.width = '0%';
+                velocityText.textContent = '0 💩/s';
+                status.textContent = 'PARADO!!! ⛔';
+                status.className = 'text-red-500 font-bold text-lg glow hidden md:block';
+
+                // Allow restart by clicking anywhere
+                document.body.addEventListener('click', function restartHandler(e) {
+                    if (e.target.id !== 'stop') {
+                        initMicrophone();
+                        document.body.removeEventListener('click', restartHandler);
+                    }
+                });
+            });
+
+            // Initialize microphone on page load
+            initMicrophone();
+        });
     </script>
 
 </body>
