@@ -24,6 +24,7 @@ const gestureStrings = {
 }
 
 async function main() {
+    let lastDirection = 'stop'
     const video = document.querySelector("#pose-video")
     const canvas = document.querySelector("#pose-canvas")
     const ctx = canvas.getContext("2d")
@@ -47,7 +48,6 @@ async function main() {
 
     // load handpose model
     const detector = await createDetector()
-    console.log("mediaPose model loaded")
 
     // main estimation loop
     const estimateHands = async () => {
@@ -78,7 +78,11 @@ async function main() {
                 })
 
                 resultLayer[chosenHand].innerText = gestureStrings[result.name]
-                requestApiLeftRight(est, gestureStrings[result.name]);                
+                const newGesture = result.name
+                if (lastDirection !== newGesture) {
+                    requestApiLeftRight(est, gestureStrings[result.name])
+                    lastDirection = newGesture
+                }
             }
         }
         // ...and so on
@@ -86,7 +90,6 @@ async function main() {
     }
 
     estimateHands()
-    console.log("Starting predictions")
 }
 
 async function createDetector() {
@@ -146,7 +149,6 @@ window.addEventListener("DOMContentLoaded", () => {
     ).then(video => {
         video.play()
         video.addEventListener("loadeddata", event => {
-            console.log("Camera is ready")
             main()
         })
     })
@@ -154,5 +156,4 @@ window.addEventListener("DOMContentLoaded", () => {
     const canvas = document.querySelector("#pose-canvas")
     canvas.width = config.video.width
     canvas.height = config.video.height
-    console.log("Canvas initialized")
 });

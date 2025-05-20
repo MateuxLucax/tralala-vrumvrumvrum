@@ -1,9 +1,33 @@
 services:
+  tralala-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: tralala-backend
+    container_name: tralala-backend
+    hostname: tralala-backend
+    restart: unless-stopped
+    # devices:
+    #   - "/dev/ttyUSB0:/dev/ttyUSB0"
+
   tralala-frontend:
     image: nginx:stable-alpine
     container_name: tralala-frontend
+    hostname: tralala-frontend
     volumes:
-      - ./public:/usr/share/nginx/html:ro
+      - ./frontend:/usr/share/nginx/html:ro
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+
+  tralala-proxy:
+    image: nginx:stable-alpine
+    container_name: tralala-proxy
+    hostname: tralala-proxy
+    restart: unless-stopped
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - "80:80"
-    restart: unless-stopped
+    depends_on:
+      - tralala-frontend
+      - tralala-backend

@@ -5,12 +5,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CALIBRAÇÃO INSANA!!! 🔧🔥</title>
-    <link rel="icon" href="../assets/icon.png" type="image/png">
+    <link rel="icon" href="/assets/icon.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-    <script src="../js/mic.js"></script>
+    <script src="/assets/js/mic.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -85,7 +85,7 @@
 <body class="bg-black text-white font-poppins min-h-screen flex flex-col">
     <header class="bg-racing-pattern border-b-4 border-neon-blue">
         <div class="container mx-auto flex justify-between items-center p-4">
-            <a href="../" class="text-3xl font-bungee text-neon-blue glow animate-pulse-fast">
+            <a href="/" class="text-3xl font-bungee text-neon-blue glow animate-pulse-fast">
                 <span class="text-neon-pink">TRALALA</span> <span class="text-neon-yellow">VRUM</span><span class="text-neon-green">VRUM</span>
             </a>
         </div>
@@ -187,7 +187,6 @@
             const beforeCalibration = document.getElementById('beforeCalibration');
             const duringCalibration = document.getElementById('duringCalibration');
             const afterCalibration = document.getElementById('afterCalibration');
-            const goToControl = document.getElementById('goToControl');
             const calibrationProgress = document.querySelector('#calibrationProgress div');
             const calibrationStatus = document.getElementById('calibrationStatus');
             
@@ -214,8 +213,8 @@
                         afterCalibration.classList.remove('hidden');
                         localStorage.setItem('isCalibrated', 'true');
                     }
-                }, 200);
-                
+                }, 250);
+
                 // Call the actual calibration function
                 try {
                     decibelMeter.calibrate(function(status) {
@@ -231,10 +230,6 @@
             recalibrate.addEventListener('click', startCalibrationProcess);
             
             skipCalibration.addEventListener('click', function() {
-                window.location.href = '../control/';
-            });
-            
-            goToControl.addEventListener('click', function() {
                 window.location.href = '../control/';
             });
         });

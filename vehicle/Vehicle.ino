@@ -10,7 +10,7 @@ uint8_t currentSpeed = 0;
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Tralala VrumVrumVrum");
+  Serial.println("Tralala VrumVrumVrum Starting up...");
 
   setAllSpeed(currentSpeed);
   stopAll();
@@ -18,7 +18,6 @@ void setup() {
 }
 
 void loop() {
- 
   if (Serial.available()) {
     String command = Serial.readStringUntil('\n');
     command.trim();
@@ -48,7 +47,7 @@ void loop() {
       rightMotor2.run(FORWARD);
     } else if (command.toInt() > 0 || command == "0") {
       int val = command.toInt();
-      if (val < 50) {
+      if (val < 100) {
         Serial.println("Speed too low. Stopping all motors.");
         stopAll();
       } else {
@@ -66,6 +65,8 @@ void loop() {
   }
 }
 
+// Test function to run motors in different directions
+// This function is called once in setup() to test the motors
 void testRun() {
   Serial.println("Running motor test...");
   setAllSpeed(255);

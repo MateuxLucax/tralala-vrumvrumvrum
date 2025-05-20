@@ -11,8 +11,7 @@ let decibelMeter = {
     running: false,
     calibrating: false,
     calibratedOffset: parseFloat(localStorage.getItem('calibratedOffset')) || 0,
-
-
+    lastSpeed: 0,
 
     async start() {
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -74,20 +73,16 @@ let decibelMeter = {
                 } else if (adjustedDecibels <= 0) {
                     velocity = 0;
                 } else {
-                    velocity = Math.round((adjustedDecibels) * 18)
-                    console.log(velocity)
-
-                    if (velocity < 230) velocity = 230;
-                    if (velocity > 255) velocity = 255;
+                    velocity = Math.round((adjustedDecibels))
                 }
-
             
-                // console.log('Decibels:', adjustedDecibels, 'dB');
-                // console.log('Calibrated Offset:', this.calibratedOffset);
                 document.getElementById('status').textContent = adjustedDecibels + ' dB';
-                document.getElementById('velocity').textContent = velocity;
+                document.getElementById('velocity').textContent = `${velocity} 💩/s`;
 
-                requestApiAcceleration(velocity)
+                if (this.lastSpeed !== velocity) {
+                    requestApiAcceleration(velocity)
+                    this.lastSpeed = velocity;
+                }
             }, 200);
 
             this.running = true;
@@ -99,7 +94,6 @@ let decibelMeter = {
                     calibratedOffset = -averageDb; // Shift reading so the average becomes zero
                 }
                 // calibratedOffset += 5;
-                console.log('Calibration complete. Offset:', calibratedOffset);
                 localStorage.setItem('calibratedOffset', calibratedOffset);
                 this.stop();
                 this.calibrating = false;
@@ -115,16 +109,6 @@ let decibelMeter = {
     },
 
     calibrate() {
-        console.log(this.calibratedOffset)
-        if (this.calibratedOffset !== 0) {
-            const answer = confirm('Quer subsituir a calibração?');
-            if (!answer) {
-                document.getElementById('calibrationStatus').textContent = 'Calibração cancelada.';
-                window.location.replace("../control");
-                return;
-            }
-        }
-        document.getElementById('calibrationStatus').textContent = 'Calibração Iniciada...';
         this.calibrating = true;
         this.start();
     },
@@ -159,6 +143,5 @@ let decibelMeter = {
             this.stream = null;
         }
         this.running = false;
-        console.log('Decibel meter stopped.');
     }
 };

@@ -11,3 +11,5 @@ function randomize() {
 
     return gestureRandomized;
 }
+
+randomize();
